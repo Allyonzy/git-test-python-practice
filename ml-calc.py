@@ -1,18 +1,17 @@
 import math
-from typing import List, Tuple
 
 class MLCalculator:
     """Калькулятор для базовых операций машинного обучения."""
 
     @staticmethod
-    def mean(data: List[float]) -> float:
+    def mean(data) -> float:
         """Среднее арифметическое."""
         if not data:
             raise ValueError("Список пуст")
         return sum(data) / len(data)
 
     @staticmethod
-    def variance(data: List[float], sample: bool = True) -> float:
+    def variance(data, sample: bool = True) -> float:
         """
         Дисперсия.
         sample=True - выборочная дисперсия (деление на n-1)
@@ -26,12 +25,12 @@ class MLCalculator:
         return ss / (n - 1 if sample else n)
 
     @staticmethod
-    def std(data: List[float], sample: bool = True) -> float:
+    def std(data, sample: bool = True) -> float:
         """Стандартное отклонение."""
         return math.sqrt(MLCalculator.variance(data, sample))
 
     @staticmethod
-    def normalize(data: List[float]) -> List[float]:
+    def normalize(data) :
         """Z-нормализация: (x - mean) / std."""
         mu = MLCalculator.mean(data)
         sigma = MLCalculator.std(data, sample=False)
@@ -40,7 +39,7 @@ class MLCalculator:
         return [(x - mu) / sigma for x in data]
 
     @staticmethod
-    def min_max_scale(data: List[float], feature_range: Tuple[float, float] = (0, 1)) -> List[float]:
+    def min_max_scale(data, feature_range) :
         """Мин-макс масштабирование в заданный диапазон."""
         if not data:
             return []
@@ -51,7 +50,7 @@ class MLCalculator:
         return [a + (x - min_val) * (b - a) / (max_val - min_val) for x in data]
 
     @staticmethod
-    def mse(y_true: List[float], y_pred: List[float]) -> float:
+    def mse(y_true, y_pred):
         """Среднеквадратичная ошибка (MSE)."""
         if len(y_true) != len(y_pred):
             raise ValueError("Длины списков не совпадают")
@@ -59,7 +58,7 @@ class MLCalculator:
         return sum((yt - yp) ** 2 for yt, yp in zip(y_true, y_pred)) / n
 
     @staticmethod
-    def mae(y_true: List[float], y_pred: List[float]) -> float:
+    def mae(y_true, y_pred):
         """Средняя абсолютная ошибка (MAE)."""
         if len(y_true) != len(y_pred):
             raise ValueError("Длины списков не совпадают")
@@ -67,7 +66,7 @@ class MLCalculator:
         return sum(abs(yt - yp) for yt, yp in zip(y_true, y_pred)) / n
 
     @staticmethod
-    def r2_score(y_true: List[float], y_pred: List[float]) -> float:
+    def r2_score(y_true, y_pred):
         """Коэффициент детерминации R²."""
         ss_res = sum((yt - yp) ** 2 for yt, yp in zip(y_true, y_pred))
         y_mean = MLCalculator.mean(y_true)
@@ -77,7 +76,7 @@ class MLCalculator:
         return 1 - ss_res / ss_tot
 
     @staticmethod
-    def linear_regression(X: List[float], y: List[float]) -> Tuple[float, float]:
+    def linear_regression(X, y):
         """
         Простая линейная регрессия y = slope * x + intercept.
         Возвращает (slope, intercept).
@@ -99,7 +98,7 @@ class MLCalculator:
         return slope, intercept
 
     @staticmethod
-    def predict_lr(X: List[float], slope: float, intercept: float) -> List[float]:
+    def predict_lr(X, slope, intercept) :
         """Предсказание по обученной линейной регрессии."""
         return [slope * x + intercept for x in X]
 
@@ -113,7 +112,7 @@ if __name__ == "__main__":
     print(f"Дисперсия (выборочная): {ml.variance(data):.2f}")
     print(f"Стандартное отклонение: {ml.std(data):.2f}")
     print(f"Нормализованные данные: {ml.normalize(data)}")
-    print(f"Мин-макс (0-1): {ml.min_max_scale(data)}")
+    print(f"Мин-макс (0-1): {ml.min_max_scale(data, (0, 1))}")
 
     # Пример метрик
     y_true = [3, -0.5, 2, 7]
